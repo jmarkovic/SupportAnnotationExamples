@@ -1,11 +1,17 @@
 package co.infinum.supportannotations;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+
+import co.infinum.supportannotations.Utility.ExampleUIThreadClass;
+import co.infinum.supportannotations.Utility.ExampleWorkerThreadClass;
 
 import static co.infinum.supportannotations.Utility.acceptRGBColor;
 import static co.infinum.supportannotations.Utility.accepts0to255;
@@ -15,6 +21,7 @@ import static co.infinum.supportannotations.Utility.acceptsFloatNegative1to1Excl
 import static co.infinum.supportannotations.Utility.acceptsIdRes;
 import static co.infinum.supportannotations.Utility.acceptsStringResource;
 import static co.infinum.supportannotations.Utility.doesNotAcceptNull;
+import static co.infinum.supportannotations.Utility.doingSomethingWithResult;
 import static co.infinum.supportannotations.Utility.mayAcceptNull;
 import static co.infinum.supportannotations.Utility.mayReturnNull;
 import static co.infinum.supportannotations.Utility.neverReturnsNull;
@@ -34,8 +41,13 @@ import static co.infinum.supportannotations.Utility.sizeAtLeast1;
 import static co.infinum.supportannotations.Utility.sizeAtMost5;
 import static co.infinum.supportannotations.Utility.sizeCombo;
 import static co.infinum.supportannotations.Utility.sizeExactly10;
-import static co.infinum.supportannotations.Utility.sizeMutlipleOf2;
+import static co.infinum.supportannotations.Utility.sizeMultipleOf2;
 
+
+/**
+ * http://tools.android.com/tech-docs/support-annotations
+ * http://developer.android.com/tools/debugging/annotations.html
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -60,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         //region android resources
         // android resources
         acceptsStringResource(R.string.app_name);
+
+        acceptsStringResource(125000);
 
         acceptsStringResource(R.id.tv_hello_world); // string resource expected, not ID
 
@@ -104,16 +118,16 @@ public class MainActivity extends AppCompatActivity {
 
         //region threading on class
         // threading on class
-        final Utility.ExampleUIThreadClass uiThreadObject = new Utility.ExampleUIThreadClass();
+        final ExampleUIThreadClass uiThreadObject = new ExampleUIThreadClass();
         uiThreadObject.doesNotHaveUIThreadAnnotation();
 
-        final Utility.ExampleWorkerThreadClass workerThreadObject = new Utility.ExampleWorkerThreadClass();
-        workerThreadObject.doesNotHaveWorkerTheadAnnotation(); // still knows
+        final ExampleWorkerThreadClass workerThreadObject = new ExampleWorkerThreadClass();
+        workerThreadObject.doesNotHaveWorkerThreadAnnotation(); // still knows
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                workerThreadObject.doesNotHaveWorkerTheadAnnotation(); // now it works
+                workerThreadObject.doesNotHaveWorkerThreadAnnotation(); // now it works
 
                 uiThreadObject.doesNotHaveUIThreadAnnotation(); // it knows
 
@@ -122,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onProgressUpdate(Void... values) {
-                workerThreadObject.doesNotHaveWorkerTheadAnnotation();
+                workerThreadObject.doesNotHaveWorkerThreadAnnotation();
 
                 uiThreadObject.doesNotHaveUIThreadAnnotation();
             }
@@ -146,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         // value constraints - ranges
         accepts0to255(120);
 
-        accepts0to255(10000); // value out of range
+        accepts0to255(10_000); // value out of range
 
         acceptsFloat0To3(2);
 
@@ -173,9 +187,9 @@ public class MainActivity extends AppCompatActivity {
 
         sizeExactly10("Hello World"); // with space
 
-        sizeMutlipleOf2("HelloWorld"); // length is 10
+        sizeMultipleOf2("HelloWorld"); // length is 10
 
-        sizeMutlipleOf2("Hello World"); // length is 11
+        sizeMultipleOf2("Hello World"); // length is 11
 
         sizeCombo("ElCapitan"); // 9 long
 
@@ -234,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
         returnCheckResult();
 
         int result = returnCheckResult();
+        doingSomethingWithResult(result);
         //endregion
 
     }

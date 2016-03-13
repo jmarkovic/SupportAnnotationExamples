@@ -138,7 +138,7 @@ public final class Utility {
         // no op
     }
 
-    public static void sizeMutlipleOf2(@Size(multiple = 2) String text) {
+    public static void sizeMultipleOf2(@Size(multiple = 2) String text) {
         // no op
     }
 
@@ -208,7 +208,7 @@ public final class Utility {
 
     @WorkerThread
     public static class ExampleWorkerThreadClass {
-        public void doesNotHaveWorkerTheadAnnotation() {
+        public void doesNotHaveWorkerThreadAnnotation() {
             // no op
         }
     }
