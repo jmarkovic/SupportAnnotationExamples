@@ -11,6 +11,7 @@
         tools:context="co.infinum.supportannotations.MainActivity">
 
     <TextView
+            android:id="@+id/tv_hello_world"
             android:text="Hello World!"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
