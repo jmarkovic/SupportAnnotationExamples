@@ -21,7 +21,6 @@ import static co.infinum.supportannotations.Utility.acceptsFloatNegative1to1Excl
 import static co.infinum.supportannotations.Utility.acceptsIdRes;
 import static co.infinum.supportannotations.Utility.acceptsStringResource;
 import static co.infinum.supportannotations.Utility.doesNotAcceptNull;
-import static co.infinum.supportannotations.Utility.doingSomethingWithResult;
 import static co.infinum.supportannotations.Utility.mayAcceptNull;
 import static co.infinum.supportannotations.Utility.mayReturnNull;
 import static co.infinum.supportannotations.Utility.neverReturnsNull;
@@ -33,7 +32,6 @@ import static co.infinum.supportannotations.Utility.requiresDangerousPermission;
 import static co.infinum.supportannotations.Utility.requiresGrantedPermission;
 import static co.infinum.supportannotations.Utility.requiresMultiplePermissions;
 import static co.infinum.supportannotations.Utility.requiresNonGrantedPermission;
-import static co.infinum.supportannotations.Utility.returnCheckResult;
 import static co.infinum.supportannotations.Utility.returnsAnimRes;
 import static co.infinum.supportannotations.Utility.returnsIdRes;
 import static co.infinum.supportannotations.Utility.returnsRGBColor;
@@ -42,6 +40,7 @@ import static co.infinum.supportannotations.Utility.sizeAtMost5;
 import static co.infinum.supportannotations.Utility.sizeCombo;
 import static co.infinum.supportannotations.Utility.sizeExactly10;
 import static co.infinum.supportannotations.Utility.sizeMultipleOf2;
+import static co.infinum.supportannotations.Utility.thisDoesSomething;
 
 
 /**
@@ -149,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
 
         acceptRGBColor(R.color.colorPrimary); // this is a resource, must be actual color
 
+        acceptRGBColor(12);
+
+        acceptRGBColor(0xFF00FF00); // resolves to green
+
         acceptRGBColor(ContextCompat.getColor(this, R.color.colorPrimary)); // resolves into a color
 
         int color = returnsRGBColor();
@@ -245,10 +248,10 @@ public class MainActivity extends AppCompatActivity {
 
         //region check result
         // Check result
-        returnCheckResult();
+        thisDoesSomething();
 
-        int result = returnCheckResult();
-        doingSomethingWithResult(result);
+        int result = thisDoesSomething();
+        thisDoesSomething(result);
         //endregion
 
     }
